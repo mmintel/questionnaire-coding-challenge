@@ -1,12 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { QuestionnaireContext, questionnaireService } from './context/QuestionnaireContext';
+import questions from './questions';
+
+questions.forEach(question => questionnaireService.addQuestion(question));
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <QuestionnaireContext.Provider value={questionnaireService}>
+      <App />
+    </QuestionnaireContext.Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
