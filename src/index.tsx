@@ -2,16 +2,26 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { QuestionnaireContext, questionnaireService } from './context/QuestionnaireContext';
-import questions from './questions';
+import { QuestionsContext } from './context/QuestionsContext';
+import questions from './fixtures/questions';
+import { LocalStorageService } from './services/StorageService';
+import { InMemoryQuestionRepository } from './repositories/QuestionRepository';
+import { GetQuestionUseCase } from './usecases/GetQuestionUseCase';
+import { AnswerQuestionUseCase } from './usecases/AnswerQuestionUseCase';
 
-questions.forEach(question => questionnaireService.addQuestion(question));
+const localStorageService = new LocalStorageService('myapp', localStorage);
+const inMemoryRepository = new InMemoryQuestionRepository();
+
+questions.forEach(question => inMemoryRepository.add(question));
 
 ReactDOM.render(
-  <React.StrictMode>
-    <QuestionnaireContext.Provider value={questionnaireService}>
+<React.StrictMode>
+    <QuestionsContext.Provider value={{
+      getQuestionUseCase: new GetQuestionUseCase(inMemoryRepository, localStorageService),
+      answerQuestionUseCase: new AnswerQuestionUseCase(inMemoryRepository, localStorageService),
+    }}>
       <App />
-    </QuestionnaireContext.Provider>
+    </QuestionsContext.Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

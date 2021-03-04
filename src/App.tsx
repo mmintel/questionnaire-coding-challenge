@@ -4,21 +4,28 @@ import {
   Switch,
   Route,
 } from "react-router-dom";
-import Home from './pages/Home';
+import HomePage from './pages/HomePage';
+import QuestionDetailPage from './pages/QuestionDetailPage';
+import QuestionPage from './pages/QuestionPage';
+import RecommendationPage from './pages/RecommendationPage';
 
 function App() {
   return (
     <Router>
-      <div className="App">
-          <Switch>
-            <Route path="/:id">
-              <Home />
-            </Route>
-            <Route path="/">
-              <Home />
-            </Route>
-          </Switch>
-      </div>
+      <Switch>
+        <Route exact path="/">
+          <HomePage />
+        </Route>
+        <Route exact path="/question">
+          <QuestionPage />
+        </Route>
+        <Route path="/question/:id">
+          <QuestionDetailPage />
+        </Route>
+        <Route path="/recommendation">
+          <RecommendationPage />
+        </Route>
+      </Switch>
     </Router>
   );
 }

@@ -1,3 +1,8 @@
+# Caveats
+* you can go back and forth using browser functionality, no validation happening here
+* data from localStorage is not validated and errors might occur when you change it manually
+* you should add more types of questions and add better validation
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

@@ -3,19 +3,31 @@ export interface StorageService {
     load(key: string): string | null;
 }
 
-// TODO
-// store data under myapp = "{ firstName: 'foo'}"
+interface RawJSON {
+    [key: string]: any;
+}
+
+export interface LocalStorage {
+    setItem(key: string, value: any): void;
+    getItem(key: string): string | null;
+}
 
 export class LocalStorageService implements StorageService {
-    private key = 'myapp';
+    constructor(private key: string, private localStorage: LocalStorage) {}
     
     save(key: string, value: any) {
-        console.log('saving to local storage');
-        localStorage.setItem(this.key, value);
+        const data = this.getFromLocalStorage();
+        data[key] = value;        
+        this.localStorage.setItem(this.key, JSON.stringify(data));
     }
 
     load(key: string) {
-        console.log('loading from local storage');
-        return localStorage.getItem(this.key);
+        const data = this.getFromLocalStorage();
+        return data[key];
+    }
+    
+    private getFromLocalStorage(): RawJSON {
+        const raw = this.localStorage.getItem(this.key);
+        return raw ? JSON.parse(raw) : {};
     }
 }
