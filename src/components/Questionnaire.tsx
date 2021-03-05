@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useQuestions } from '../context/QuestionsContext';
+import { useApp } from '../context/AppContext';
 import { Question, QuestionValue } from '../domain/questions/Question';
 import { registry } from './questions/registry';
 
@@ -10,7 +10,7 @@ interface QuestionnaireProps {
 }
 
 const Questionnaire: React.FC<QuestionnaireProps> = ({ current, onNextQuestion, onFinalize }) => {
-    const { getQuestionUseCase, answerQuestionUseCase } = useQuestions();
+    const { getQuestionUseCase, answerQuestionUseCase } = useApp();
     const question = getQuestionUseCase.execute(current);
     const [answer, setAnswer] = useState<QuestionValue>(null);
     const [error, setError] = useState<string | null>(null);

@@ -1,32 +1,42 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { QuestionsContext } from './context/QuestionsContext';
+import { AppContext } from './context/AppContext';
 import questions from './fixtures/questions';
-import { LocalStorageService } from './services/StorageService';
-import { InMemoryQuestionRepository } from './repositories/QuestionRepository';
 import { GetQuestionUseCase } from './usecases/GetQuestionUseCase';
 import { AnswerQuestionUseCase } from './usecases/AnswerQuestionUseCase';
+import { LocalStorageService } from './services/implementations/LocalStorageService';
+import { InMemoryQuestionRepository } from './repositories/implementations/InMemoryQuestionRepository';
+import { AuthenticateUserUseCase } from './usecases/AuthenticateUserUseCase';
+import { HttpUserRepository } from './repositories/implementations/HttpUserRepository';
+import { FetchHttpService } from './services/implementations/FetchHttpService';
+import { GetAllRecommendationsUseCase } from './usecases/GetAllRecommendationsUseCase';
+import { HttpRecommendationRepository } from './repositories/implementations/HttpRecommendationRepository';
+import { GetStoredAnswersUseCase } from './usecases/GetStoredAnswersUseCase';
+import { GetUserTokenUseCase } from './usecases/GetUserTokenUseCase';
 
-const localStorageService = new LocalStorageService('myapp', localStorage);
-const inMemoryRepository = new InMemoryQuestionRepository();
+const questionStorageService = new LocalStorageService('myapp:answers');
+const userStorageService = new LocalStorageService('myapp:user');
+const httpService = new FetchHttpService("https://challenge-dot-popsure-204813.appspot.com");
 
-questions.forEach(question => inMemoryRepository.add(question));
+const questionRepository = new InMemoryQuestionRepository();
+const userRepository = new HttpUserRepository(httpService);
+const recommendationRepository = new HttpRecommendationRepository(httpService);
+
+questions.forEach(question => questionRepository.add(question));
 
 ReactDOM.render(
 <React.StrictMode>
-    <QuestionsContext.Provider value={{
-      getQuestionUseCase: new GetQuestionUseCase(inMemoryRepository, localStorageService),
-      answerQuestionUseCase: new AnswerQuestionUseCase(inMemoryRepository, localStorageService),
+    <AppContext.Provider value={{
+      authenticateUserUseCase: new AuthenticateUserUseCase(userRepository, userStorageService),
+      getAllRecommendationsUseCase: new GetAllRecommendationsUseCase(recommendationRepository),
+      getQuestionUseCase: new GetQuestionUseCase(questionRepository, questionStorageService),
+      answerQuestionUseCase: new AnswerQuestionUseCase(questionRepository, questionStorageService),
+      getStoredAnswersUseCase: new GetStoredAnswersUseCase(questionStorageService),
+      getUserTokenUseCase: new GetUserTokenUseCase(userStorageService),
     }}>
       <App />
-    </QuestionsContext.Provider>
+    </AppContext.Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();

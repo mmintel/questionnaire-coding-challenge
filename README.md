@@ -1,12 +1,15 @@
-# Caveats
+# Notes
+## Caveats
 * you can go back and forth using browser functionality, no validation happening here
 * data from localStorage is not validated and errors might occur when you change it manually
+
+## Future improvements
 * you should add more types of questions and add better validation
+* you could use an AuthenticatedHttpService instead of passing the token
+* you could use Input and Output ports for use cases
+* make use of config or env vars
 
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
+# Setup
 ## Available Scripts
 
 In the project directory, you can run:

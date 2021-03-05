@@ -1,9 +1,9 @@
 import React from 'react';
 import { Redirect } from 'react-router';
-import { useQuestions } from '../context/QuestionsContext';
+import { useApp } from '../context/AppContext';
 
 const QuestionPage = () => {
-    const { getQuestionUseCase } = useQuestions();
+    const { getQuestionUseCase } = useApp();
     const question = getQuestionUseCase.execute();
     
     return (
