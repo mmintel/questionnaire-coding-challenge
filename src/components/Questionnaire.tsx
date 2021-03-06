@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { Question, QuestionValue } from '../domain/questions/Question';
+import Alert from './elements/Alert';
 import Button from './elements/Button';
 import Container from './elements/Container';
 import ScreenCenter from './elements/ScreenCenter';
@@ -56,12 +57,23 @@ const Questionnaire: React.FC<QuestionnaireProps> = ({ current, onNextQuestion, 
                 address: data.address,
                 email: data.email,
                 firstName: data.firstName,
-                numberOfChildren: data.numberOfChildren && Number(data.numberOfChildren),
+                numberOfChildren: data.children === 'yes' && data.numberOfChildren ? Number(data.numberOfChildren) : 0,
                 occupation: data.occupation,
             });
             onFinalize();
         } catch(e) {
             setError(e.message);
+        }
+    }
+
+    const handleSubmit = (e: React.FormEvent) => {        
+        e.preventDefault();
+
+        if (!answer) return;
+        if (question.getNext()) {
+            handleNext();
+        } else {
+            handleGetRecommendation();
         }
     }
 
@@ -74,21 +86,17 @@ const Questionnaire: React.FC<QuestionnaireProps> = ({ current, onNextQuestion, 
     return (
         <ScreenCenter>
             <Container>
-                <Component question={question} value={answer} onChange={handleChange} />
+                <form onSubmit={handleSubmit}>
+                    <Component question={question} value={answer} onChange={handleChange} />
 
-                {error && (
-                    <div>{error}</div>
-                )}
-
-                <div className="mt-4">
-                    {question.getNext() && (
-                        <Button onClick={handleNext} disabled={!answer}>Next</Button>
+                    {error && (
+                        <Alert>{error}</Alert>
                     )}
 
-                    {!question.getNext() && (
-                        <Button onClick={handleGetRecommendation} disabled={!answer}>Submit</Button>
-                    )}
-                </div>
+                    <div className="mt-4">
+                        <Button type="submit" disabled={!answer}>{question.getNext() ? "Next" : "Submit"}</Button>
+                    </div>
+                </form>
             </Container>
         </ScreenCenter>
     )

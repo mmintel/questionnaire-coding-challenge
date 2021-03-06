@@ -4,6 +4,7 @@
 * data from localStorage is not validated and errors might occur when you change it manually
 
 ## Future improvements
+* add loading states
 * you should add more types of questions and add better validation
 * you could use an AuthenticatedHttpService instead of passing the token
 * you could use Input and Output ports for use cases
