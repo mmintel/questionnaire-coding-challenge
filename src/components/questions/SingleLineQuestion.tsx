@@ -1,7 +1,8 @@
 import React from 'react';
 import { QuestionValue } from '../../domain/questions/Question';
 import { SingleLineQuestion as ISimpleQuestion } from '../../domain/questions/SingleLineQuestion';
-
+import Input from '../elements/Input';
+import Typography from '../elements/Typography';
 interface SingleLineQuestionProps {
     question: ISimpleQuestion;
     value: QuestionValue;
@@ -15,8 +16,8 @@ const SingleLineQuestion: React.FC<SingleLineQuestionProps> = ({ question, value
 
     return (
         <div>
-            <h1>{question.title}</h1>
-            <input type="text" value={value || ''} placeholder={question.placeholder} onChange={handleChange} />
+            <Typography tag="h1" size={1}>{question.title}</Typography>
+            <Input type={question.fieldType} className="my-3" value={value || ''} placeholder={question.placeholder} onChange={handleChange} />
         </div>
     )
 }

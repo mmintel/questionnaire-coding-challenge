@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { Question, QuestionValue } from '../domain/questions/Question';
+import Button from './elements/Button';
+import Container from './elements/Container';
+import ScreenCenter from './elements/ScreenCenter';
 import { registry } from './questions/registry';
 
 interface QuestionnaireProps {
@@ -69,21 +72,25 @@ const Questionnaire: React.FC<QuestionnaireProps> = ({ current, onNextQuestion, 
     }
     
     return (
-        <div>
-            <Component question={question} value={answer} onChange={handleChange} />
+        <ScreenCenter>
+            <Container>
+                <Component question={question} value={answer} onChange={handleChange} />
 
-            {error && (
-                <div>{error}</div>
-            )}
+                {error && (
+                    <div>{error}</div>
+                )}
 
-            {question.getNext() && (
-                <button onClick={handleNext} disabled={!answer}>Next</button>
-            )}
+                <div className="mt-4">
+                    {question.getNext() && (
+                        <Button onClick={handleNext} disabled={!answer}>Next</Button>
+                    )}
 
-            {!question.getNext() && (
-                <button onClick={handleGetRecommendation} disabled={!answer}>Submit</button>
-            )}
-        </div>
+                    {!question.getNext() && (
+                        <Button onClick={handleGetRecommendation} disabled={!answer}>Submit</Button>
+                    )}
+                </div>
+            </Container>
+        </ScreenCenter>
     )
 }
 

@@ -15,9 +15,9 @@ const Recommendation: React.FC<RecommendationProps> = ({ recommendation }) => {
         YEAR: 'year',
     }
     return (
-        <div>
+        <div className="border p-4 mb-2 flex justify-between">
             <div>{labels[recommendation.type]}</div>
-            <div>{recommendation.price.amount} {labels[recommendation.price.periodicity]}</div>
+            <div>€{recommendation.price.amount} per {labels[recommendation.price.periodicity]}</div>
         </div>
     )
 }
