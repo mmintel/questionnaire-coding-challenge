@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { Recommendation as IRecommendation } from '../domain/recommendations/Recommendation';
+import Alert from './elements/Alert';
 import Container from './elements/Container';
 import ScreenCenter from './elements/ScreenCenter';
 import Typography from './elements/Typography';
@@ -32,7 +33,7 @@ const AllRecommendations: React.FC = () => {
                 <Typography className="mb-2" tag="h1" size={1}>We got your recommendation</Typography>
                 <Typography className="mb-4" tag="h2" size={2}>Based on your answers, this is what makes sense for you and what you should pay.</Typography>
 
-                {error && <div>{error}</div>}
+                {error && <Alert>{error}</Alert>}
 
                 {recommendations?.map(recommendation => (
                     <Recommendation recommendation={recommendation} key={recommendation.type} />
