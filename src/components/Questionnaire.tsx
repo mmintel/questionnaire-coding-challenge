@@ -10,7 +10,7 @@ interface QuestionnaireProps {
 }
 
 const Questionnaire: React.FC<QuestionnaireProps> = ({ current, onNextQuestion, onFinalize }) => {
-    const { getQuestionUseCase, answerQuestionUseCase } = useApp();
+    const { getQuestionUseCase, answerQuestionUseCase, getStoredAnswersUseCase, authenticateUserUseCase } = useApp();
     const question = getQuestionUseCase.execute(current);
     const [answer, setAnswer] = useState<QuestionValue>(null);
     const [error, setError] = useState<string | null>(null);
@@ -27,21 +27,39 @@ const Questionnaire: React.FC<QuestionnaireProps> = ({ current, onNextQuestion, 
         return (<div>Could not find any question.</div>);
     }
 
-    const handleNext = () => {
+    const answerQuestion = () => {
         try {
             answerQuestionUseCase.execute(question, answer);
-            onNextQuestion(question.getNext());
         } catch(e) {
             setError(e.message);
         }
+    }
+
+    const handleNext = () => {
+        answerQuestion();
+        onNextQuestion(question.getNext());
     }
 
     const handleChange = (value: QuestionValue) => {      
         setAnswer(value)
     }
 
-    const handleGetRecommendation = () => {
-        onFinalize();
+    const handleGetRecommendation = async () => {
+        answerQuestion();
+
+        try {
+            const data = getStoredAnswersUseCase.execute();
+            await authenticateUserUseCase.execute({
+                address: data.address,
+                email: data.email,
+                firstName: data.firstName,
+                numberOfChildren: data.numberOfChildren && Number(data.numberOfChildren),
+                occupation: data.occupation,
+            });
+            onFinalize();
+        } catch(e) {
+            setError(e.message);
+        }
     }
 
     const Component = registry[question.type];
@@ -63,7 +81,7 @@ const Questionnaire: React.FC<QuestionnaireProps> = ({ current, onNextQuestion, 
             )}
 
             {!question.getNext() && (
-                <button onClick={handleGetRecommendation} disabled={!answer}>Get recommendation</button>
+                <button onClick={handleGetRecommendation} disabled={!answer}>Submit</button>
             )}
         </div>
     )

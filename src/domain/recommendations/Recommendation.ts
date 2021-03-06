@@ -1,7 +1,7 @@
 export interface Recommendation {
-    type: string;
+    type: "HEALTH_INSURANCE" | "HOME_CONTENT" | "PRIVATE_LIABILITY";
     price: {
         amount: number;
-        periodicity: string;
+        periodicity: "MONTH" | "YEAR";
     }
 }

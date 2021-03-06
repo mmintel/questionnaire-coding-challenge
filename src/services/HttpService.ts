@@ -10,3 +10,5 @@ export interface HttpOptions {
 export interface HttpHeaders {
     [header: string]: string;
 }
+
+export class HttpException extends Error {}
