@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.js": "/questionnaire-coding-challenge/static/js/main.f2874334.chunk.js",
+    "main.js.map": "/questionnaire-coding-challenge/static/js/main.f2874334.chunk.js.map",
+    "runtime-main.js": "/questionnaire-coding-challenge/static/js/runtime-main.296dce69.js",
+    "runtime-main.js.map": "/questionnaire-coding-challenge/static/js/runtime-main.296dce69.js.map",
+    "static/js/2.2f0cb4db.chunk.js": "/questionnaire-coding-challenge/static/js/2.2f0cb4db.chunk.js",
+    "static/js/2.2f0cb4db.chunk.js.map": "/questionnaire-coding-challenge/static/js/2.2f0cb4db.chunk.js.map",
+    "index.html": "/questionnaire-coding-challenge/index.html",
+    "static/js/2.2f0cb4db.chunk.js.LICENSE.txt": "/questionnaire-coding-challenge/static/js/2.2f0cb4db.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.296dce69.js",
+    "static/js/2.2f0cb4db.chunk.js",
+    "static/js/main.f2874334.chunk.js"
+  ]
+}
