@@ -31,6 +31,29 @@ describe('SingleLineQuestion', () => {
         });
     });
 
+    describe('setNext', () => {
+        it('should be able to set the next question', () => {
+            const question = new SingleLineQuestion("foo", "bar");
+            const anotherQuestion = new SingleLineQuestion("bar", "baz");
+            question.setNext(anotherQuestion);
+            expect(question.getNext()?.id).toBe("bar");
+        });
+
+        it('should be able to set the next question with a condition', () => {
+            const question = new SingleLineQuestion("foo", "bar");
+            const anotherQuestion = new SingleLineQuestion("bar", "baz");
+            const yetAnotherQuestion = new SingleLineQuestion("barbar", "baz");
+
+            question.setNext(value => value === "foo" ? anotherQuestion : yetAnotherQuestion);
+
+            expect(question.getNext()?.id).toBe("barbar");
+            
+            question.answer("foo");
+            
+            expect(question.getNext()?.id).toBe("bar");
+        });
+    })
+
     describe('answer', () => {
         it('should be able to answer', () => {
             const question = new SingleLineQuestion("foo", "bar");
