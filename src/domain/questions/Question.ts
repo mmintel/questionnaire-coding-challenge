@@ -1,11 +1,11 @@
 export type QuestionValue = string | number | null;
 
-type NextFN = (value: QuestionValue) => Question;
+type Validator = (value: QuestionValue) => Question;
 
 export abstract class Question {
     public value: QuestionValue = null;
     public abstract type: string;
-    private next: Question | NextFN | null = null;
+    private next: Question | Validator | null = null;
 
     constructor(public id: string, public title: string) {}
     
@@ -19,7 +19,7 @@ export abstract class Question {
         return this.next;
     }
 
-    public setNext(next: Question | NextFN) {
+    public setNext(next: Question | Validator) {
         this.next = next;
     }
 }

@@ -9,6 +9,8 @@
 * you could use an AuthenticatedHttpService instead of passing the token
 * you could use Input and Output ports for use cases
 * make use of config or env vars
+* add more tests also integration tests
+* generate better testing data
 
 # Setup
 ## Available Scripts

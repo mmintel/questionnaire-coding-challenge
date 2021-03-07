@@ -15,9 +15,9 @@ import { HttpRecommendationRepository } from './repositories/implementations/Htt
 import { GetStoredAnswersUseCase } from './usecases/GetStoredAnswersUseCase';
 import { GetUserTokenUseCase } from './usecases/GetUserTokenUseCase';
 
-const questionStorageService = new LocalStorageService('myapp:answers');
-const userStorageService = new LocalStorageService('myapp:user');
-const httpService = new FetchHttpService("https://challenge-dot-popsure-204813.appspot.com");
+const questionStorageService = new LocalStorageService('myapp:answers', window.localStorage);
+const userStorageService = new LocalStorageService('myapp:user', window.localStorage);
+const httpService = new FetchHttpService("https://challenge-dot-popsure-204813.appspot.com", window.fetch);
 
 const questionRepository = new InMemoryQuestionRepository();
 const userRepository = new HttpUserRepository(httpService);
