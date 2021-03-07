@@ -7,16 +7,18 @@ import { GetStoredAnswersUseCase } from '../usecases/GetStoredAnswersUseCase';
 import { GetUserTokenUseCase } from '../usecases/GetUserTokenUseCase';
 
 interface AppContextProps {
-    getQuestionUseCase: GetQuestionUseCase;
-    answerQuestionUseCase: AnswerQuestionUseCase;
-    authenticateUserUseCase: AuthenticateUserUseCase;
-    getAllRecommendationsUseCase: GetAllRecommendationsUseCase;
-    getStoredAnswersUseCase: GetStoredAnswersUseCase;
-    getUserTokenUseCase: GetUserTokenUseCase;
+  getQuestionUseCase: GetQuestionUseCase;
+  answerQuestionUseCase: AnswerQuestionUseCase;
+  authenticateUserUseCase: AuthenticateUserUseCase;
+  getAllRecommendationsUseCase: GetAllRecommendationsUseCase;
+  getStoredAnswersUseCase: GetStoredAnswersUseCase;
+  getUserTokenUseCase: GetUserTokenUseCase;
 }
 
-export const AppContext = React.createContext<AppContextProps>({} as AppContextProps);
+export const AppContext = React.createContext<AppContextProps>(
+  {} as AppContextProps,
+);
 
 export const useApp = () => {
-    return useContext(AppContext);
-}
+  return useContext(AppContext);
+};
