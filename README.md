@@ -1,3 +1,105 @@
+# Task
+You need to implement a questionnaire to recommend a user the best insurance plan for their situation. We prepared an API for you, you can find the documentation below.
+
+Let's split the task into the following sub-tasks:
+1. Collect the data from the user.
+2. Send the data to the API.
+3. Fetch the recommendation and display it to the user.
+
+## 1. Questionnaire & data collection
+At first, we would need to collect the following information from the user, in the given order:
+- First name
+- Address
+- If they have any children (boolean)
+    - If yes → How many do they have?
+- Their occupation
+    - Employed
+    - Student
+    - Self-employed
+- Email address
+
+Your questionnaire will need to satisfy the following criteria:
+
+- Only one question per page.
+- Persistency. It should be possible to close the browser, then open it again and retrieve the previously entered information.
+
+## 2. Send the questionnaire to the API
+
+Once completed, the questionnaire will be sent back to a backend service. This backend service will store the questionnaire respond with a [JWT](https://jwt.io), which can then be used to display recommendations.
+
+### Endpoint
+
+`POST` `/user` `Unauthenticated`
+
+Request:
+```JSON
+{
+	"firstName": "Jane",
+	"address": "Lohmühlenstraße 65",
+	"numberOfChildren": 2,
+	"occupation": "EMPLOYED",
+	"email": "jane.doe@feather-insurance.com"
+}
+```
+
+where `occupation` can have the following values: `EMPLOYED`, `SELF_EMPLOYED`, `STUDENT`.
+
+Response:
+```JSON
+{
+	"jwt": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImphbmUuZG9lQGdldHBvcHN1cmUuY29tIiwiZmlyc3ROYW1lIjoiSmFuZSIsIm51bWJlck9mQ2hpbGRyZW4iOjIsIm9jY3VwYXRpb24iOiJFTVBMT1lFRCIsImFkZHJlc3MiOiJMb2htXHUwMGZjaGxlbnN0cmFcdTAwZGZlIDY1IiwiaWQiOiIyMDRjMDM5ZC1hOTA2LTQ3MTAtYjVkYi0zOTRmZmFiZmFhYzgifQ.TR5rPmcMItQHsFOgAtYto3XVO1IbXaHltsDJn7XIcJk"
+}
+```
+
+Example Request:
+```
+curl https://challenge-dot-popsure-204813.appspot.com/user \
+-H 'Content-Type: application/json' \
+-d '{"firstName":"Jane","address":"Lohmühlenstraße 65","numberOfChildren":2,"occupation":"EMPLOYED","email":"jane.doe@getpopsure.com"}' \
+-X POST
+```
+
+## 3. Fetch and display the recommendation
+After the user has been created you can now use the JWT to authenticate your requests. You need to store the token locally, and use it in a header:
+
+`Authorization: Bearer <token>`
+
+With a valid token you should be able to fetch the recommendation tailored for the user:
+
+### Endpoint
+
+`GET` `/recommendation` `Authenticated`
+
+`/recommendation`
+
+Response:
+
+```json
+[
+	{
+		"type": "PRIVATE_LIABILITY",
+		"price": {
+	    	"amount": 4.3,
+			"periodicity": "MONTH"
+		}
+	},
+	{
+		"type": "HOME_CONTENT",
+		"price": {
+			"amount": 103.32,
+			"periodicity": "YEAR"
+		}
+	},
+	{
+		"type": "HEALTH_INSURANCE",
+		"price": {
+			"amount": 320.32,
+			"periodicity": "MONTH"
+		}
+	}
+]
+```
+
 # Notes
 ## Caveats
 * you can go back and forth using browser functionality, no validation happening here
